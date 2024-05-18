@@ -1,5 +1,5 @@
 <div align="center">
-  <img alt="Rich-Vue3 Logo" width="320" height="120" src="./pictures/logo-text-1.png">
+  <img alt="Rich-Vue3 Logo" width="320" height="120" src="./pictures/rich-vue3.png">
   <h1>Rich-Vue3</h1>
   <span><a href="https://zahuopu.blog.csdn.net//category_12676615.html">rich-vue3官方教程</a></span>
 </div>
