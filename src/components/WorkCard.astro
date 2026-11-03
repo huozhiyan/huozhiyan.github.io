@@ -1,0 +1,234 @@
+---
+import CoverArt from './CoverArt.astro';
+
+interface Props {
+  index: number;
+  href: string;
+  title: string;
+  latin?: string;
+  tagline: string;
+  tags: string[];
+  stack: string[];
+  status: string;
+  cover: 'film' | 'idphoto';
+  live?: string;
+}
+
+const { index, href, title, latin, tagline, tags, stack, status, cover, live } = Astro.props;
+const pad = String(index).padStart(2, '0');
+---
+
+<article class="card">
+  <a class="card-link" href={href} aria-label={`查看 ${title} 详情`}>
+    <div class="cover-wrap">
+      <CoverArt variant={cover} />
+      <span class="status"><span class="dot"></span>{status}</span>
+    </div>
+
+    <div class="body">
+      <div class="top">
+        <span class="num mono">{pad}</span>
+        <span class="stack mono">{stack.slice(0, 3).join(' / ')}</span>
+      </div>
+
+      <h3 class="title">
+        {title}
+        {latin && latin !== title && <span class="latin mono">{latin}</span>}
+      </h3>
+      <p class="tagline">{tagline}</p>
+
+      <div class="tags">
+        {tags.map((t) => <span class="tag">{t}</span>)}
+      </div>
+
+      <div class="foot">
+        <span class="go">
+          看详情
+          <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true">
+            <path
+              d="M3 8h10M9 4l4 4-4 4"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </span>
+        {
+          live && (
+            <a class="live" href={live} target="_blank" rel="noopener noreferrer">
+              打开作品 ↗
+            </a>
+          )
+        }
+      </div>
+    </div>
+  </a>
+</article>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--paper-2);
+    transition:
+      transform 0.3s cubic-bezier(0.2, 0.7, 0.3, 1),
+      box-shadow 0.3s ease,
+      border-color 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: var(--line-strong);
+    box-shadow: 0 18px 40px -24px rgb(0 0 0 / 0.45);
+  }
+
+  .card-link {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .cover-wrap {
+    position: relative;
+    flex: none;
+    overflow: hidden;
+  }
+
+  .cover-wrap :global(svg) {
+    transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+
+  .card:hover .cover-wrap :global(svg) {
+    transform: scale(1.025);
+  }
+
+  .status {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 24px;
+    padding: 0 10px;
+    border-radius: 999px;
+    background: rgb(0 0 0 / 0.55);
+    backdrop-filter: blur(6px);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.08em;
+  }
+
+  .body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 20px 22px 18px;
+  }
+
+  .top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .num {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .stack {
+    font-size: 0.62rem;
+    letter-spacing: 0.04em;
+    opacity: 0.85;
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .title {
+    margin: 0;
+    font-size: 1.42rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .latin {
+    font-size: 0.6rem;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .tagline {
+    margin: 8px 0 0;
+    font-size: 0.94rem;
+    line-height: 1.65;
+    color: var(--muted);
+    text-wrap: pretty;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 16px;
+  }
+
+  .foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+  }
+
+  .go {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .go svg {
+    transition: transform 0.22s ease;
+  }
+
+  .card:hover .go svg {
+    transform: translateX(4px);
+  }
+
+  .live {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    padding: 4px 8px;
+    border-radius: 3px;
+    transition:
+      color 0.16s ease,
+      background 0.16s ease;
+  }
+
+  .live:hover {
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+  }
+</style>

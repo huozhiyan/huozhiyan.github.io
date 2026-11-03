@@ -1,0 +1,69 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <div class="foot-left">
+      <span class="mono">© {year} huozhiyan</span>
+      <span class="sep" aria-hidden="true">·</span>
+      <span class="mono dim">用对话写出来的</span>
+    </div>
+    <div class="foot-links">
+      <a href="https://github.com/huozhiyan" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://github.com/huozhiyan/light-video" target="_blank" rel="noopener noreferrer"
+        >light-video</a
+      >
+      <a href="https://github.com/huozhiyan/ID-Photo" target="_blank" rel="noopener noreferrer"
+        >ID-Photo</a
+      >
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-foot {
+    border-top: 1px solid var(--line);
+    padding-block: 28px;
+  }
+
+  .foot-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .foot-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .dim {
+    color: var(--muted);
+  }
+
+  .sep {
+    color: var(--line-strong);
+  }
+
+  .foot-links {
+    display: flex;
+    gap: 20px;
+  }
+
+  .foot-links a {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: color 0.16s ease;
+  }
+
+  .foot-links a:hover {
+    color: var(--ink);
+  }
+</style>

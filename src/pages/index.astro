@@ -1,0 +1,592 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import WorkCard from '../components/WorkCard.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const works = (await getCollection('works')).sort((a, b) => b.data.order - a.data.order);
+
+const log = [
+  {
+    date: '2026.11',
+    title: '在做下一个',
+    body: '一个新的东西正在长出来。做完了会出现在上面的格子里。',
+    now: true,
+  },
+  {
+    date: '2026.08',
+    title: '证件照制作 上线',
+    body: '把 44MB 的抠图模型塞进浏览器，做了防抠洞、排版打印和文件大小控制。',
+    href: `${base}/works/id-photo/`,
+  },
+  {
+    date: '2026.05',
+    title: 'LightVideo 上线',
+    body: 'FFmpeg.wasm 跑进 Web Worker，做成一个不用上传的转码台。',
+    href: `${base}/works/light-video/`,
+  },
+];
+---
+
+<Base
+  title="huozhiyan"
+  description="huozhiyan 的作品集。用对话写出来的软件：浏览器里的视频处理工具、免费证件照制作。全部本地运行，不上传任何文件。"
+>
+  <Header />
+
+  <main id="main">
+    <!-- ── Hero ───────────────────────────── -->
+    <section class="hero">
+      <div class="wrap">
+        <div class="eyebrow mono">
+          <span class="dot"></span>
+          <span>作品集 · 2026</span>
+          <span class="sep">/</span>
+          <span class="dim">2 件已上线</span>
+        </div>
+
+        <h1 class="display hero-title">
+          我把要的东西<br />
+          <span class="accent">说</span>给机器听，<br />
+          它写出能跑的代码。
+        </h1>
+
+        <div class="hero-foot">
+          <p class="lede">
+            这里是 huozhiyan 的作品集。没有炫技，只有两个我自己每天在用的工具——处理视频、做证件照，
+            都跑在浏览器里，一个文件都不用上传。
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn" href="#works">
+              看作品
+              <svg class="arrow" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+                <path
+                  d="M8 3v9M4 8.5l4 4 4-4"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </svg>
+            </a>
+            <a
+              class="btn ghost"
+              href="https://github.com/huozhiyan"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub
+              <svg class="arrow" viewBox="0 0 16 16" width="13" height="13" aria-hidden="true">
+                <path
+                  d="M5 11 11 5M6 5h5v5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <dl class="stats">
+          <div>
+            <dt class="mono">作品</dt>
+            <dd>02<small>件</small></dd>
+          </div>
+          <div>
+            <dt class="mono">上传到服务器</dt>
+            <dd>0<small>字节</small></dd>
+          </div>
+          <div>
+            <dt class="mono">运行位置</dt>
+            <dd class="text">你的浏览器</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ── Works ──────────────────────────── -->
+    <section class="section" id="works">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="head-left">
+            <span class="idx mono">01 — 作品</span>
+            <h2>已经做出来的</h2>
+          </div>
+          <span class="hint">全部可在线使用 ↗</span>
+        </div>
+
+        <div class="grid">
+          {
+            works.map((w, i) => (
+              <WorkCard
+                index={i + 1}
+                href={`${base}/works/${w.id}/`}
+                title={w.data.title}
+                latin={w.data.latin}
+                tagline={w.data.tagline}
+                tags={w.data.tags}
+                stack={w.data.stack}
+                status={w.data.status}
+                cover={w.data.cover}
+                live={w.data.live}
+              />
+            ))
+          }
+
+          <article class="next-card">
+            <div class="next-cover" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="26" height="26">
+                <path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"></path>
+              </svg>
+            </div>
+
+            <div class="next-top">
+              <span class="mono">03 — 下一个</span>
+              <span class="pulse" aria-hidden="true"></span>
+            </div>
+            <p class="next-title">正在做</p>
+            <p class="next-body">
+              一张空着的格子。每次有新东西做出来，这里就往左挪一格。
+            </p>
+            <a
+              class="next-link"
+              href="https://github.com/huozhiyan?tab=repositories"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              看我在写什么
+              <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true">
+                <path
+                  d="M3 8h10M9 4l4 4-4 4"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </svg>
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Principles ─────────────────────── -->
+    <section class="section principles">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="head-left">
+            <span class="idx mono">02 — 偏好</span>
+            <h2>我做东西的三条线</h2>
+          </div>
+        </div>
+
+        <div class="principle-grid">
+          <div class="principle">
+            <span class="p-num mono">01</span>
+            <h3>能不上传就不上传</h3>
+            <p>
+              你的视频、你的脸，都不该为了转换个格式而离开你的设备。两个作品都是本地跑完的，
+              关掉网络也照样能用。
+            </p>
+          </div>
+          <div class="principle">
+            <span class="p-num mono">02</span>
+            <h3>一个页面解决一件事</h3>
+            <p>
+              不做注册、不做会员、不做引导。打开就是那个输入框，用完就关掉，下次不用想起密码。
+            </p>
+          </div>
+          <div class="principle">
+            <span class="p-num mono">03</span>
+            <h3>把边界写在脸上</h3>
+            <p>
+              最大 2GB、文件不超过 50KB、模型 44MB——限制就摆在入口处，而不是等你跑到一半才告诉你。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Build log ──────────────────────── -->
+    <section class="section" id="log">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="head-left">
+            <span class="idx mono">03 — 日志</span>
+            <h2>制作日志</h2>
+          </div>
+          <span class="hint">最近在前</span>
+        </div>
+
+        <ol class="timeline">
+          {
+            log.map((item) => (
+              <li class:list={['log-item', { now: item.now }]}>
+                <span class="log-date mono">{item.date}</span>
+                <div class="log-body">
+                  <h3>
+                    {item.href ? <a href={item.href}>{item.title}</a> : item.title}
+                  </h3>
+                  <p>{item.body}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </section>
+
+    <!-- ── CTA ────────────────────────────── -->
+    <section class="section cta">
+      <div class="wrap cta-inner">
+        <div>
+          <p class="mono cta-label">想聊点什么</p>
+          <h2 class="display cta-title">做得粗糙，但都是真的在用的东西。</h2>
+        </div>
+        <div class="cta-links">
+          <a class="btn" href={`${base}/about`}>关于我</a>
+          <a
+            class="btn ghost"
+            href="https://github.com/huozhiyan"
+            target="_blank"
+            rel="noopener noreferrer">GitHub ↗</a
+          >
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  /* ── Hero ─────────────────────────────── */
+  .hero {
+    padding-block: clamp(48px, 9vw, 96px) 0;
+  }
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--ink);
+    margin-bottom: clamp(28px, 5vw, 44px);
+  }
+
+  .eyebrow .sep {
+    color: var(--line-strong);
+  }
+
+  .eyebrow .dim {
+    color: var(--muted);
+  }
+
+  .hero-title {
+    font-size: clamp(2.35rem, 7.2vw, 4.6rem);
+    max-width: 16ch;
+  }
+
+  .accent {
+    color: var(--accent);
+  }
+
+  .hero-foot {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 32px;
+    margin-top: clamp(28px, 4vw, 40px);
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin: clamp(44px, 7vw, 72px) 0 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .stats > div {
+    padding: 22px 0 20px;
+    border-left: 1px solid var(--line);
+    padding-left: 20px;
+  }
+
+  .stats > div:first-child {
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  .stats dt {
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .stats dd {
+    margin: 0;
+    font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+    font-weight: 750;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .stats dd small {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+    margin-left: 6px;
+  }
+
+  .stats dd.text {
+    font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    padding-top: 4px;
+  }
+
+  /* ── Works ────────────────────────────── */
+  .head-left {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+  }
+
+  .next-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px dashed var(--line-strong);
+    border-radius: 6px;
+    padding: 24px 22px;
+    min-height: 100%;
+    color: var(--muted);
+    background: transparent;
+  }
+
+  .next-cover {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 16 / 10;
+    margin-bottom: 22px;
+    border: 1px dashed var(--line-strong);
+    border-radius: 4px;
+    color: var(--line-strong);
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 8px,
+      color-mix(in srgb, var(--line) 45%, transparent) 8px,
+      color-mix(in srgb, var(--line) 45%, transparent) 9px
+    );
+  }
+
+  .next-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--muted);
+  }
+
+  .pulse {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.35;
+      transform: scale(0.8);
+    }
+  }
+
+  .next-title {
+    margin: 16px 0 0;
+    font-size: 1.42rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+  }
+
+  .next-body {
+    margin: 8px 0 0;
+    font-size: 0.94rem;
+    line-height: 1.65;
+    max-width: 30ch;
+  }
+
+  .next-link {
+    margin-top: auto;
+    padding-top: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .next-link:hover {
+    color: var(--accent);
+  }
+
+  /* ── Principles ───────────────────────── */
+  .principle-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border-block: 1px solid var(--line);
+  }
+
+  .principle {
+    background: var(--paper);
+    padding: 28px 24px 30px;
+  }
+
+  .p-num {
+    color: var(--accent);
+  }
+
+  .principle h3 {
+    margin: 16px 0 10px;
+    font-size: 1.05rem;
+    font-weight: 650;
+    letter-spacing: -0.015em;
+  }
+
+  .principle p {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: var(--muted);
+    max-width: 34ch;
+  }
+
+  /* ── Timeline ─────────────────────────── */
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .log-item {
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr);
+    gap: 24px;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: start;
+  }
+
+  .log-date {
+    color: var(--muted);
+    padding-top: 3px;
+  }
+
+  .log-item.now .log-date {
+    color: var(--accent);
+  }
+
+  .log-body h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+  }
+
+  .log-body h3 a {
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.16s ease;
+  }
+
+  .log-body h3 a:hover {
+    border-color: var(--accent);
+  }
+
+  .log-body p {
+    margin: 6px 0 0;
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.65;
+    max-width: 58ch;
+  }
+
+  /* ── CTA ──────────────────────────────── */
+  .cta-inner {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .cta-label {
+    color: var(--muted);
+    margin: 0 0 14px;
+  }
+
+  .cta-title {
+    font-size: clamp(1.5rem, 3.4vw, 2.3rem);
+    max-width: 22ch;
+  }
+
+  .cta-links {
+    display: flex;
+    gap: 10px;
+  }
+
+  @media (max-width: 640px) {
+    .hero-foot {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+
+    .stats {
+      grid-template-columns: 1fr;
+    }
+
+    .stats > div {
+      border-left: 0;
+      padding-left: 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .stats > div:first-child {
+      border-top: 0;
+    }
+
+    .log-item {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+  }
+</style>

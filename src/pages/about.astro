@@ -1,0 +1,201 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const tools = [
+  { name: 'DeepSeek / Claude', note: '主要对话对象，写代码、改 bug、吵逻辑' },
+  { name: 'Cursor', note: '在编辑器里直接改，省掉复制粘贴' },
+  { name: 'Chrome DevTools', note: '真相来源，任何时候都信它，不信我自己的判断' },
+  { name: 'GitHub Pages', note: '部署，纯静态，不要服务器' },
+];
+---
+
+<Base
+  title="关于"
+  description="huozhiyan，做前端，也做一些自己会用的小工具。关于这个作品集、工具链和一些想法。"
+>
+  <Header />
+
+  <main id="main">
+    <section class="wrap about">
+      <p class="mono kicker">关于</p>
+      <h1 class="display about-title">
+        做前端，<br />顺手给自己做了几个工具。
+      </h1>
+
+      <div class="cols">
+        <div class="prose">
+          <p>
+            我是 huozhiyan。写前端，长期在 Vue / React 这两套里来回切。做这个作品集的出发点很朴素：
+            我平时会用到一些没人愿意做的小工具，与其去用那些"注册一下、上传一下、等一分钟"的在线服务，
+            不如自己做一个。
+          </p>
+
+          <p>
+            这两个作品有一个共同点——<strong>它们都不需要服务器</strong>。视频转码用 FFmpeg.wasm，
+            抠图用浏览器里的 ONNX 推理。这不是技术炫技，而是因为处理文件这件事本来就不该上传：
+            上传意味着多一次等待、多一份隐私风险、还多一台要付钱的机器。
+          </p>
+
+          <h2>关于"vibe coding"</h2>
+
+          <p>
+            这里的代码基本是对话写出来的。我给方向、给约束、给否决意见，它负责打字。
+            这不等于不过脑子——恰恰相反，<strong>你要比平时更清楚自己要什么</strong>，
+            否则每一轮对话都在给一个你自己也说不清的东西打补丁。
+          </p>
+
+          <p>
+            我的体会是：模型很擅长"把想法变成一个能跑的东西"，很不擅长"替你判断这个想法值不值得做"。
+            所以真正的时间花在后者上——决定做什么、砍掉什么、边界画在哪。
+          </p>
+
+        </div>
+
+        <aside class="side">
+          <div class="side-block">
+            <p class="mono">工具链</p>
+          </div>
+
+          <ul class="tool-list">
+            {
+              tools.map((t) => (
+                <li>
+                  <span class="t-name">{t.name}</span>
+                  <span class="t-note">{t.note}</span>
+                </li>
+              ))
+            }
+          </ul>
+
+          <div class="side-block">
+            <p class="mono">联系</p>
+            <a class="side-link" href="https://github.com/huozhiyan" target="_blank" rel="noopener noreferrer">
+              github.com/huozhiyan ↗
+            </a>
+            <p class="side-note">想聊直接提 Issue，比邮箱快。</p>
+          </div>
+        </aside>
+      </div>
+
+      <div class="back-row">
+        <a class="btn ghost" href={`${base}/`}>← 回首页</a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .about {
+    padding-block: clamp(40px, 7vw, 72px) clamp(56px, 9vw, 96px);
+  }
+
+  .kicker {
+    color: var(--muted);
+    margin: 0 0 20px;
+  }
+
+  .about-title {
+    font-size: clamp(2.1rem, 5.6vw, 3.4rem);
+    margin-bottom: clamp(36px, 6vw, 56px);
+  }
+
+  .cols {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 280px;
+    gap: clamp(32px, 6vw, 72px);
+    align-items: start;
+  }
+
+  .prose p:first-child {
+    margin-top: 0;
+  }
+
+  .side {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    position: sticky;
+    top: 88px;
+  }
+
+  .side > .side-block {
+    padding-top: 0;
+    border-top: 0;
+    margin-bottom: -12px;
+  }
+
+  .tool-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .tool-list li {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .t-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .t-note {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  .side-block {
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+  }
+
+  .side-block .mono {
+    color: var(--muted);
+    margin: 0 0 12px;
+  }
+
+  .side-link {
+    font-size: 0.88rem;
+    font-weight: 550;
+    border-bottom: 1px solid var(--line-strong);
+    padding-bottom: 2px;
+  }
+
+  .side-link:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .side-note {
+    margin: 10px 0 0;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .back-row {
+    margin-top: clamp(48px, 8vw, 72px);
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+  }
+
+  @media (max-width: 820px) {
+    .cols {
+      grid-template-columns: 1fr;
+    }
+    .side {
+      position: static;
+    }
+  }
+</style>
